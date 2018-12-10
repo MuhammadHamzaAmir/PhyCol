@@ -1,0 +1,109 @@
+import turtle
+from tkinter import *
+def input_values(event_2):
+    screen_gui_2=Tk()
+    screen_gui_2.title("Input Values")
+    mass_of_ball_1=Label(screen_gui_2,text="Mass of Ball 1",font=("tohama",13))
+    mass_of_ball_2=Label(screen_gui_2,text="Mass of Ball 2",font=("tohama",13))
+    velocty_of_ball_1=Label(screen_gui_2,text="Velocity of Ball 1",font=("tohama",13))
+    velocty_of_ball_2=Label(screen_gui_2,text="Velocity of Ball 2",font=("tohama",13))
+
+    global mass_1_value
+    m_1=IntVar()
+    mass_1_value=Entry(screen_gui_2,textvariable=m_1,font=("tohama",13))
+    
+    global mass_2_value
+    m_2=IntVar()
+    mass_2_value=Entry(screen_gui_2,textvariable=m_2,font=("tohama",13))
+    
+    global velocity_1_value
+    v_1=IntVar()
+    velocity_1_value=Entry(screen_gui_2, textvariable=v_1, font=("tohama",13))
+    
+    global velocity_2_value
+    v_2=IntVar()
+    velocity_2_value=Entry(screen_gui_2,textvariable=v_2, font=("tohama",13))
+    
+    finish_button=Button(screen_gui_2, text="Done",font=("tohama",13))
+    finish_button.bind("<Button-1>", main_settings)
+    finish_button.grid(row=4 ,column =1)
+
+    mass_of_ball_1.grid(row=0 ,sticky=E)
+    mass_of_ball_2.grid(row=1,sticky=E)
+    velocty_of_ball_1.grid(row=2, sticky=E)
+    velocty_of_ball_2.grid(row=3, sticky=E)
+    
+    mass_1_value.grid(row=0, column=1)
+    mass_2_value.grid(row=1, column=1)
+    velocity_1_value.grid(row=2, column=1)
+    velocity_2_value.grid(row=3, column=1)
+    balls()
+    #value use
+    #z=int(m_1.get())+5
+    #print(z)
+    
+def gui():
+    screen_gui=Tk()
+    welcome=Label(screen_gui, text="Welcome to Phycol" ,bg="red",fg="white",font=("arial",18,"bold"))
+    welcome.pack()
+    button_1=Button(screen_gui, text="Elastic Collision" , font=("arial",14))
+    button_1.bind("<Button-1>",input_values)
+    button_1.pack()             
+    
+def main_settings(event_1):
+    screen=turtle.Screen()
+    screen.title("PhyCol")
+    screen.bgcolor("Black")
+    screen.screensize(640,480)
+    frame()
+
+def balls():
+    global ball_1
+    ball_1=[]
+    global ball_2
+    ball_2=[]
+    for no_of_ball_1 in range(1):
+        ball_1.append(turtle.Turtle())
+    for no_of_ball_2 in range(1):
+        ball_2.append(turtle.Turtle())
+    for ball in ball_1:
+        ball.shape("circle")
+        ball.color("red")
+        ball.shapesize(2,2,2)
+        ball.penup()
+        ball.speed(0)
+        ball.fd(500)
+    for balls in ball_2:
+        balls.shape("circle")
+        balls.color("green")
+        balls.shapesize(2,2,2)
+        balls.penup()
+        balls.speed(0)
+        balls.bk(500)
+def frame():
+    frame=turtle.Turtle()
+    frame.color("black")
+    frame.speed(0)
+    frame.right(90)
+    frame.fd(200)
+    frame.color("white")
+    frame.right(90)
+    frame.fd(550)
+    frame.right(90)
+    frame.fd(400)
+    frame.right(90)
+    frame.fd(1100)
+    frame.right(90)
+    frame.fd(400)
+    frame.right(90)
+    frame.fd(550)
+    frame.hideturtle()
+    
+    
+#def balls_movement():
+    
+
+gui()
+
+
+
