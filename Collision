@@ -1,32 +1,35 @@
-import turtle
 from tkinter import *
-def input_values(event_2):
+import pygame
+    
+    
+def input_values():
     screen_gui_2=Tk()
     screen_gui_2.title("Input Values")
-    mass_of_ball_1=Label(screen_gui_2,text="Mass of Ball 1",font=("tohama",13))
-    mass_of_ball_2=Label(screen_gui_2,text="Mass of Ball 2",font=("tohama",13))
+    mass_of_ball_1=Label(screen_gui_2,text="Mass of Ball 1",font=("tohama",13),bg=("#D9C8C0"))
+    mass_of_ball_2=Label(screen_gui_2,text="Mass of Ball 2",font=("tohama",13),bg=("#FF6E3E"))
     velocty_of_ball_1=Label(screen_gui_2,text="Velocity of Ball 1",font=("tohama",13))
     velocty_of_ball_2=Label(screen_gui_2,text="Velocity of Ball 2",font=("tohama",13))
-
+     
     global mass_1_value
-    m_1=IntVar()
-    mass_1_value=Entry(screen_gui_2,textvariable=m_1,font=("tohama",13))
+    mass_1_value=Entry(screen_gui_2 ,font=("tohama",13))
+    
     
     global mass_2_value
-    m_2=IntVar()
-    mass_2_value=Entry(screen_gui_2,textvariable=m_2,font=("tohama",13))
-    
+    mass_2_value=Entry(screen_gui_2,font=("tohama",13))
+
     global velocity_1_value
-    v_1=IntVar()
-    velocity_1_value=Entry(screen_gui_2, textvariable=v_1, font=("tohama",13))
+    velocity_1_value=Entry(screen_gui_2,  font=("tohama",13))
+    
     
     global velocity_2_value
-    v_2=IntVar()
-    velocity_2_value=Entry(screen_gui_2,textvariable=v_2, font=("tohama",13))
+    velocity_2_value=Entry(screen_gui_2 , font=("tohama",13))
     
-    finish_button=Button(screen_gui_2, text="Done",font=("tohama",13))
-    finish_button.bind("<Button-1>", main_settings)
+    
+    finish_button=Button(screen_gui_2, text="Values Done",font=("tohama",13), command=main_settings)
     finish_button.grid(row=4 ,column =1)
+
+    finish_button_1=Button(screen_gui_2, text="Start Collision",font=("tohama",13),command=balls_movement)
+    finish_button_1.grid(row=5 ,column =1)
 
     mass_of_ball_1.grid(row=0 ,sticky=E)
     mass_of_ball_2.grid(row=1,sticky=E)
@@ -37,73 +40,224 @@ def input_values(event_2):
     mass_2_value.grid(row=1, column=1)
     velocity_1_value.grid(row=2, column=1)
     velocity_2_value.grid(row=3, column=1)
-    balls()
+    screen_gui_2.mainloop()
     #value use
-    #z=int(m_1.get())+5
+    #z=int(mass_1_value.get())+5
     #print(z)
-    
+
+
 def gui():
     screen_gui=Tk()
     welcome=Label(screen_gui, text="Welcome to Phycol" ,bg="red",fg="white",font=("arial",18,"bold"))
     welcome.pack()
-    button_1=Button(screen_gui, text="Elastic Collision" , font=("arial",14))
-    button_1.bind("<Button-1>",input_values)
-    button_1.pack()             
+    button_1=Button(screen_gui, text="Elastic Collision in One Dimension" , font=("arial",14),command=input_values)
+    button_1.pack()
+##    button_exit=Button(screen_gui, text="Exit" , font=("tohama",14,"italic"),command=screen_gui.destroy)
+##    button_exit.pack()
+    screen_gui.mainloop()
+
+def main_settings():
+    pygame.init()
+    global screen
+    screen=pygame.display.set_mode((1280,720))
+    pygame.display.set_caption("PhyCol")
+    pygame.display.flip()
+    balls()
     
-def main_settings(event_1):
-    screen=turtle.Screen()
-    screen.title("PhyCol")
-    screen.bgcolor("Black")
-    screen.screensize(640,480)
-    frame()
+
+
+def traits():
+    global radius_1
+    radius_1=50
+    
+    global radius_2
+    radius_2=50
+
+    global ball_1_xcor
+    ball_1_xcor=400
+
+    global ball_1_ycor
+    ball_1_ycor=400
+
+    global ball_2_xcor
+    ball_2_xcor=900
+
+    global ball_2_ycor
+    ball_2_ycor=400
 
 def balls():
+    traits()
     global ball_1
-    ball_1=[]
+   
     global ball_2
-    ball_2=[]
-    for no_of_ball_1 in range(1):
-        ball_1.append(turtle.Turtle())
-    for no_of_ball_2 in range(1):
-        ball_2.append(turtle.Turtle())
-    for ball in ball_1:
-        ball.shape("circle")
-        ball.color("red")
-        ball.shapesize(2,2,2)
-        ball.penup()
-        ball.speed(0)
-        ball.fd(500)
-    for balls in ball_2:
-        balls.shape("circle")
-        balls.color("green")
-        balls.shapesize(2,2,2)
-        balls.penup()
-        balls.speed(0)
-        balls.bk(500)
-def frame():
-    frame=turtle.Turtle()
-    frame.color("black")
-    frame.speed(0)
-    frame.right(90)
-    frame.fd(200)
-    frame.color("white")
-    frame.right(90)
-    frame.fd(550)
-    frame.right(90)
-    frame.fd(400)
-    frame.right(90)
-    frame.fd(1100)
-    frame.right(90)
-    frame.fd(400)
-    frame.right(90)
-    frame.fd(550)
-    frame.hideturtle()
+    ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor, ball_1_ycor),radius_1)  
+    ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor, ball_2_ycor),radius_2)
+    pygame.display.flip()
     
+
+
+
+
+def balls_movement():
     
-#def balls_movement():
-    
+    m1=eval(mass_1_value.get())
+    m2=eval(mass_2_value.get())
+    v1=eval(velocity_1_value.get())
+    v2=eval(velocity_2_value.get())
+    run=True
+    while run:
+        pygame.time.delay(10)
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+             run=False
+
+        global ball_1_xcor
+        global ball_2_xcor
+        global radius_1
+        global radius_2
+        
+        if m1==m2 and (v1==v2)!=0:
+                ball_1_xcor+=2
+               
+                ball_2_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+            
+        elif v1==0 and m1==m2:
+                ball_2_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif v2==0 and m1==m2:   
+                ball_1_xcor+=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif m1==2*m2 and v1==0:
+                
+               
+                ball_2_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif m2==2*m1 and v2==0:
+                ball_1_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+        elif m2==2*m1 and v1==0:
+                ball_2_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif m1==2*m2 and v2==0:
+                ball_1_xcor+=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif m1!=m2 and (v1==v2)!=0:
+                ball_1_xcor+=2
+               
+                ball_2_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif m1!=m2 and (v1!=v2):
+                ball_1_xcor+=2
+               
+                ball_2_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif m1==m2 and (v1!=v2):
+                ball_1_xcor+=2
+               
+                ball_2_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif m1!=m2 and (v1!=v2):
+                ball_1_xcor+=2
+               
+                ball_2_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif m1!=m2 and v1==0:
+                ball_2_xcor-=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+
+
+        elif m1!=m2 and v2==0:
+                ball_1_xcor+=2
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+        elif m1==2*m2 and v1!=0 and v2!=0:
+                ball_1_xcor+=3
+               
+                ball_2_xcor+=1
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()            
+
+        elif m2==2*m1 and v1!=0 and v2!=0:
+                ball_1_xcor-=1
+               
+                ball_2_xcor-=3
+                screen.fill((0,0,0))
+                
+                ball_1=pygame.draw.circle(screen, (217,200,192),(ball_1_xcor,ball_1_ycor),radius_1)
+                ball_2=pygame.draw.circle(screen, (255,110,62),(ball_2_xcor,ball_2_ycor),radius_2)
+                pygame.display.flip()
+
+
+
+
+
 
 gui()
-
 
 
